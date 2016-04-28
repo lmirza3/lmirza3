@@ -8,10 +8,7 @@ public class gameBoard extends JPanel{
   private MSButton buttons[][];
   private Container container;
   private GridLayout grid;
-  private int numCleared;
-  private int markedM;
-  private File fileName = new File("topTen.txt");  //This file must be in project folder for topTen functionality to work.
-  private String[] topTen = new String[11];
+  private int linesCleared;
   /***************************************Button Icons************************************/
   private Icon background = new ImageIcon( "bricks/blacksquare.jpg" );
   private Icon button1 = new ImageIcon( "CS342 Project 2 Minesweeper Images/button_1.gif" );
@@ -35,10 +32,7 @@ public class gameBoard extends JPanel{
     this.setLayout(grid);
     
     buttons = new MSButton[10][20];
-    this.numCleared = 0;
-    this.markedM = 0;
-    fileName = new File("topTen.txt");
-    topTen = new String[11];
+    this.linesCleared = 0;
     mineFlag = 10;
     secondsElapsed = 0;
     gameCompletedFlag = 0;
@@ -98,25 +92,8 @@ public class gameBoard extends JPanel{
       buttons[randRow][randCol].toggleMine(true); 
     }
     
-    numCleared = 0;
-    
-    try
-    {
-      Scanner input = new Scanner(fileName);
-      
-      int i = 1;
-      while(input.hasNextLine())
-      {
-        topTen[i] = input.nextLine();
-        ++i;
-      }
-      input.close();
-    }
-    catch(Exception ex)
-    {
-      JOptionPane.showMessageDialog (null, "File topTen.txt could not be read.");
-    }
-  }  
+    linesCleared = 0;
+  }
   /***************************************************************************************/
   
   /*************************************Calculate Adjacent Mines**************************/
