@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.io.*;
 
 public class gameBoard extends JPanel{
-  private MSButton buttons[][];
+  private JButton buttons[][];
   private Container container;
   private GridLayout grid;
   private int linesCleared;
@@ -31,7 +31,7 @@ public class gameBoard extends JPanel{
     grid = new GridLayout(20,20,0,0);
     this.setLayout(grid);
     
-    buttons = new MSButton[10][20];
+    buttons = new JButton[10][20];
     this.linesCleared = 0;
     mineFlag = 10;
     secondsElapsed = 0;
@@ -41,13 +41,13 @@ public class gameBoard extends JPanel{
     {
       for(int j = 0; j < 20; ++j)
       {   
-        buttons[i][j] = new MSButton(i, j, "normal", background);
-        buttons[i][j].setSize(16,16);
+        buttons[i][j] = new JButton(background);
+        buttons[i][j].setPreferredSize(new Dimension(16,16));
         this.add(buttons[i][j]);
       }
     }
     
-    int randRow;
+   /* int randRow;
     int randCol;
     for(int i = 0; i < 10; ++i)
     {
@@ -58,7 +58,7 @@ public class gameBoard extends JPanel{
       }while(buttons[randRow][randCol].isMine());
       
       buttons[randRow][randCol].toggleMine(true); 
-    }    
+    }*/    
   }
   /***************************************************************************************/
   
@@ -66,7 +66,7 @@ public class gameBoard extends JPanel{
   /***************************************************************************************/
   
   /***********************************Grid Resetter***************************************/
-  public void resetGrid()
+ /* public void resetGrid()
   {
     for(int i = 0; i < 10; ++i)
     {
@@ -93,118 +93,10 @@ public class gameBoard extends JPanel{
     }
     
     linesCleared = 0;
-  }
+  }*/
   /***************************************************************************************/
   
-  /*************************************Calculate Adjacent Mines**************************/
-  public int calcAdjMines(MSButton curr)
-  {
-    int currRow = curr.getRow();
-    int currCol = curr.getCol();
-    int adjMines = 0;
-    
-    //NW-Button
-    if((currRow > 0) && (currCol > 0))
-    {
-      if(buttons[currRow-1][currCol-1].isMine())
-        ++adjMines;
-    }
-    //N-Button
-    if(currRow > 0)
-    {
-      if(buttons[currRow-1][currCol].isMine())
-        ++adjMines;
-    }
-    //NE-Button
-    if((currRow > 0) && (currCol < 9))
-    {
-      if(buttons[currRow-1][currCol+1].isMine())
-        ++adjMines;
-    }
-    //W-Button
-    if(currCol > 0)
-    {
-      if(buttons[currRow][currCol-1].isMine())
-        ++adjMines;
-    }
-    //SW-Button
-    if((currRow < 9) && (currCol > 0))
-    {
-      if(buttons[currRow+1][currCol-1].isMine())
-        ++adjMines;
-    }
-    //S-Button
-    if(currRow < 9)
-    {
-      if(buttons[currRow+1][currCol].isMine())
-        ++adjMines;
-    }
-    //SE-Button
-    if((currRow < 9) && (currCol < 9))
-    {
-      if(buttons[currRow+1][currCol+1].isMine())
-        ++adjMines;
-    }
-    //E-Button
-    if(currCol < 9)
-    {
-      if(buttons[currRow][currCol+1].isMine())
-        ++adjMines;
-    }
-    
-    return adjMines;
-  }  
-  /***************************************************************************************/
-
   
-  /**************************************MSButton Class***********************************/
-  private class MSButton extends JButton 
-  {
-    private int row;
-    private int col;
-    private String state;
-    private Icon icon;
-    private boolean mineStatus;
-    
-    public MSButton(int r, int c, String s, Icon i)
-    {
-      super("", i);
-      this.state = s;
-      this.row = r;
-      this.col = c;
-      this.mineStatus = false;
-    }
-    
-    public void toggleMine(boolean state)
-    {
-      this.mineStatus = state;
-    } 
-    
-    public boolean isMine()
-    {
-      return this.mineStatus;
-    }  
-    
-    public void setState(String s)
-    {
-      this.state = s;
-    }  
-    
-    public String getState()
-    {
-      return this.state;
-    }
-    
-    public int getRow()
-    {
-      return this.row;
-    }  
-    public int getCol()
-    {
-      return this.col;
-    }  
-    
-  }
   /***************************************************************************************/
   
 }
