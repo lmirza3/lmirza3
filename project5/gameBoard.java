@@ -5,20 +5,21 @@ import java.util.Scanner;
 import java.io.*;
 
 public class gameBoard extends JPanel{
-  private JButton buttons[][];
+  private Tile buttons[][];
   private Container container;
   private GridLayout grid;
   private int linesCleared;
   /***************************************Button Icons************************************/
-  private Icon background = new ImageIcon( "bricks/blacksquare.jpg" );
-  private Icon button1 = new ImageIcon( "CS342 Project 2 Minesweeper Images/button_1.gif" );
-  private Icon button2 = new ImageIcon( "CS342 Project 2 Minesweeper Images/button_2.gif" );
-  private Icon button3 = new ImageIcon( "CS342 Project 2 Minesweeper Images/button_3.gif" );
-  private Icon button4 = new ImageIcon( "CS342 Project 2 Minesweeper Images/button_4.gif" );
-  private Icon button5 = new ImageIcon( "CS342 Project 2 Minesweeper Images/button_5.gif" );
-  private Icon button6 = new ImageIcon( "CS342 Project 2 Minesweeper Images/button_6.gif" );
-  private Icon button7 = new ImageIcon( "CS342 Project 2 Minesweeper Images/button_7.gif" );
-  private Icon button8 = new ImageIcon( "CS342 Project 2 Minesweeper Images/button_8.gif" );
+  private Icon black = new ImageIcon( "bricks/blacksquare.jpg" );
+  private Icon blue = new ImageIcon( "bricks/bluesquare.jpg" );
+  private Icon cyan = new ImageIcon( "bricks/cyansquare.jpg" );
+  private Icon green = new ImageIcon( "bricks/greensquare.jpg" );
+  private Icon magenta = new ImageIcon( "bricks/magentasquare.jpg" );
+  private Icon white = new ImageIcon( "bricks/whitesquare.jpg" );
+  private Icon red = new ImageIcon( "bricks/redsquare.jpg" );
+  private Icon orange = new ImageIcon( "bricks/orangesquare.jpg" );
+  private Icon yellow = new ImageIcon( "bricks/yellowsquare.jpg" );
+  private Icon gray = new ImageIcon( "bricks/graysquare.jpg" );
   /***************************************************************************************/
   public int mineFlag;
   public int secondsElapsed;
@@ -31,7 +32,7 @@ public class gameBoard extends JPanel{
     grid = new GridLayout(20,20,0,0);
     this.setLayout(grid);
     
-    buttons = new JButton[10][20];
+    buttons = new Tile[10][20];
     this.linesCleared = 0;
     mineFlag = 10;
     secondsElapsed = 0;
@@ -40,63 +41,57 @@ public class gameBoard extends JPanel{
     for(int i = 0; i < 10; ++i)
     {
       for(int j = 0; j < 20; ++j)
-      {   
-        buttons[i][j] = new JButton(background);
-        buttons[i][j].setPreferredSize(new Dimension(16,16));
+      {          
+        buttons[i][j] = new Tile(i, j, black);
+        buttons[i][j].setSize(16,16);
         this.add(buttons[i][j]);
       }
     }
-    
-   /* int randRow;
-    int randCol;
-    for(int i = 0; i < 10; ++i)
-    {
-      do
-      {
-        randRow = (int) (Math.random() * 9);
-        randCol = (int) (Math.random() * 9);
-      }while(buttons[randRow][randCol].isMine());
-      
-      buttons[randRow][randCol].toggleMine(true); 
-    }*/    
   }
   /***************************************************************************************/
   
-  
   /***************************************************************************************/
   
-  /***********************************Grid Resetter***************************************/
- /* public void resetGrid()
+  /**************************************Tetris Tile Class***********************************/
+  private class Tile extends JButton 
   {
-    for(int i = 0; i < 10; ++i)
+    //x and y positions
+    private int row;
+    private int col;
+    //filled or unfilled
+    private Icon icon;
+    //if true, then tetromino at tile
+    private boolean tileStatus;
+    
+    public Tile(int r, int c, Icon i)
     {
-      for(int j = 0; j < 10; ++j)
-      {   
-        buttons[i][j].setEnabled(true);
-        buttons[i][j].setState("normal");
-        buttons[i][j].toggleMine(false);
-        buttons[i][j].setIcon(background);
-      }
+      super("", i);
+      this.row = r;
+      this.col = c;
+      this.tileStatus = false;
     }
     
-    int randRow;
-    int randCol;
-    for(int i = 0; i < 10; ++i)
+    //toggle whether there is a tetromino piece at said tile or not
+    public void toggleTile(boolean state)
     {
-      do
-      {
-        randRow = (int) (Math.random() * 9);
-        randCol = (int) (Math.random() * 9);
-      }while(buttons[randRow][randCol].isMine());
-      
-      buttons[randRow][randCol].toggleMine(true); 
-    }
+      this.tileStatus = state;
+    } 
     
-    linesCleared = 0;
-  }*/
-  /***************************************************************************************/
-  
-  
+    public boolean isTetromino()
+    {
+      return this.tileStatus;
+    }  
+    
+    public int getRow()
+    {
+      return this.row;
+    }  
+    public int getCol()
+    {
+      return this.col;
+    }  
+    
+  }
   /***************************************************************************************/
   
 }
