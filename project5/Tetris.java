@@ -6,12 +6,16 @@ import java.io.*;
 public class Tetris implements ActionListener{
   
   gameBoard game = new gameBoard();
-  JButton smileyButton;
-  
+  public static JPanel textPanel ;
+  public static JPanel controllerPanel;
   Tetromino currentPiece;
   JTextField timeDisplay;
   JLabel timeLabel;
   JLabel mineLabel;
+  
+  JButton rotateLeftBtn;
+  JButton rotateRightBtn;
+  JButton downBtn;
   
   //add a menu bar
   public JMenuBar createMenuBar() 
@@ -85,36 +89,65 @@ public class Tetris implements ActionListener{
   {
     //overarching frame
     JFrame f = new JFrame();
-    //labels
-    JPanel panel1 = new JPanel();
-    JPanel panel2 = new JPanel();
-    JPanel panel3 = new JPanel();
     
-    //ADDING MINE NUMBER
+    textPanel = new JPanel(new GridLayout(0, 2));   //panel to add score and timer
+    controllerPanel = new JPanel(new GridLayout(0, 3));   //panel to add control buttons
+    
+    //ADDING SCORE NUMBER
     mineLabel = new JLabel();
     mineLabel.setText("" + game.mineFlag);
-    panel3.add(mineLabel);
-    f.getContentPane().add(panel3,BorderLayout.NORTH);
-    
-    //Adding RESET button
-    Icon smiley = new ImageIcon("CS342 Project 2 Minesweeper Images/smile_button.gif");
-    smileyButton = new JButton(smiley); 
-    smileyButton.setPreferredSize(new Dimension(24, 24));
-    smileyButton.addActionListener(this);
-    panel1.add(smileyButton);
-    f.getContentPane().add(panel1,BorderLayout.NORTH);    
+    textPanel.add(mineLabel);
     
     
     //adding counter
     JLabel countDownLabel = new JLabel();
     countDownLabel.setText("" + Seconds.seconds);
-    panel2.add(countDownLabel);
-    f.getContentPane().add(panel2,BorderLayout.NORTH);
+    textPanel.add(countDownLabel);
+   
     //Starting counter
     CountDown countDown = new CountDown(countDownLabel);
     Timer timer = new Timer(1000, countDown);
     timer.start();
     
+    f.add(textPanel, BorderLayout.NORTH);
+    
+    //add buttons
+    rotateLeftBtn = new JButton("Rotate Left");
+    //if rotateLeft button clicked, call rotate left function
+    rotateLeftBtn.addActionListener(new ActionListener() {   
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                  System.out.println("Rotate Left button clicked");
+                    //rotateLeft();
+                }
+                });
+    controllerPanel.add(rotateLeftBtn);
+    
+  
+    rotateRightBtn = new JButton("Rotate Right");
+    //if rotateRight button clicked, call rotate right function
+    rotateRightBtn.addActionListener(new ActionListener() {   
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                  System.out.println("Rotate Right button clicked");
+                    //rotateRight();
+                }
+                });
+    controllerPanel.add(rotateRightBtn);
+    
+    
+    downBtn = new JButton("Down");
+    //if down button clicked, call down function
+    downBtn.addActionListener(new ActionListener() {   
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Down button clicked");
+                    //downOneLine();
+                }
+                });
+    controllerPanel.add(downBtn);
+    
+    f.add(controllerPanel,BorderLayout.SOUTH);
     
     JMenuBar menuBar = new JMenuBar();
     
@@ -144,10 +177,11 @@ public class Tetris implements ActionListener{
       Seconds.seconds++;
       this.countDownLabel.setText("Secs Elapsed: " + Seconds.seconds);
       if (game.mineFlag != 0)
-        mineLabel.setText("Mines Left: " + game.mineFlag);
+        mineLabel.setText("Score: " + game.mineFlag);
       if (game.mineFlag <= 0)
       {
-        mineLabel.setText("0");
+        game.mineFlag = 0;
+        mineLabel.setText("Score: " + game.mineFlag);
       }
       
       

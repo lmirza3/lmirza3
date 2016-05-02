@@ -39,7 +39,7 @@ public class gameBoard extends JPanel{
     
     squares = new Tile[20][10];
     this.linesCleared = 0;
-    mineFlag = 10;
+    mineFlag = 0;
     secondsElapsed = 0;
     gameCompletedFlag = 0;
     
