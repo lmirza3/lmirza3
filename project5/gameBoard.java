@@ -10,7 +10,6 @@ public class gameBoard extends JPanel{
   private GridLayout grid;
   private int linesCleared;
   public Tetromino currentPiece;
-  public GameThread gameLoop;
   /***************************************Button Icons************************************/
   private String names[] = {
     "bricks/blacksquare.jpg", "bricks/bluesquare.jpg" , "bricks/cyansquare.jpg",

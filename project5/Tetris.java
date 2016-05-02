@@ -6,7 +6,6 @@ import java.io.*;
 public class Tetris implements ActionListener{
   
   gameBoard game = new gameBoard();
-  GameThread gameLoop;
   JButton smileyButton;
   
   Tetromino currentPiece;
