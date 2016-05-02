@@ -8,7 +8,7 @@ public class TetrisGrid extends JComponent {
  private Tetromino currentPiece; 
  private Tetromino nextPiece;
  private Block[][] grid; 
- private int[] gameStats; 
+ private int[] info; 
  private boolean gameStarted; 
  private JLabel score; 
  private JLabel level;
@@ -17,17 +17,14 @@ public class TetrisGrid extends JComponent {
 
  private int interval = 750;
  private Timer timer;       
-
- final int WIDTH  = 250; 
- final int HEIGHT = 450; 
-
- public TetrisGrid(int[] gameStats, JLabel score, JLabel level, JLabel lines,
+//grid that handles the game and gameplay
+ public TetrisGrid(int[] info, JLabel score, JLabel level, JLabel lines,
    Tetromino[] nextArray) {
   setBorder(BorderFactory.createLineBorder(Color.BLACK));
   setFocusable(true);
 
   this.gameStarted = false;
-  this.gameStats = gameStats;
+  this.info = info;
   this.score = score;
   this.level = level;
   this.lines = lines;
@@ -52,7 +49,7 @@ public class TetrisGrid extends JComponent {
   currentPiece = randomPiece();
   nextPiece = randomPiece();
   updateNextPiece();
-
+//adding key listeners for game controls
   addKeyListener(new KeyAdapter() {
    public void keyPressed(KeyEvent e) {
     if (gameStarted) {
@@ -65,7 +62,7 @@ public class TetrisGrid extends JComponent {
      else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
       currentPiece.hardDrop(grid);
       clearLines();
-      if (checkGameEnd()) {
+      if (checkIfFinished()) {
        gameStarted = false;
       }
       currentPiece = randomPiece();
@@ -81,18 +78,18 @@ public class TetrisGrid extends JComponent {
 
   });
  }
-
+//start the game
  public void start() {
   gameStarted = true;
   clearGame();
   requestFocusInWindow();
  }
-
+//gameplay
  void tick() {
   if (gameStarted) {
    if (!currentPiece.moveDown(grid)) {
     clearLines();
-    if (checkGameEnd()) {
+    if (checkIfFinished()) {
      gameStarted = false;
     }
     currentPiece = randomPiece();
@@ -102,7 +99,7 @@ public class TetrisGrid extends JComponent {
    repaint(); 
   }
  }
-
+//paint
  @Override
  public void paintComponent(Graphics g) {
   super.paintComponent(g);
@@ -123,11 +120,10 @@ public class TetrisGrid extends JComponent {
 
  @Override
  public Dimension getPreferredSize() {
-  return new Dimension(WIDTH, HEIGHT);
+  return new Dimension(250, 450);
  }
- 
- // Checks to see if the game is over each time a block falls
- private boolean checkGameEnd() {
+ //has the game ended?
+ private boolean checkIfFinished() {
   for (int x = 0; x < 10; x++) {
    if (!grid[x][0].isEmpty() &&
      !grid[x][1].isEmpty() &&
@@ -139,18 +135,18 @@ public class TetrisGrid extends JComponent {
   return false;
  }
  
- // Clears lines that are completed
+ // clear line
  private void clearLines() {
   int combo = 0;
   for (int y = 1; y < 19; y++) {
-   int countFilled = 0;
+   int numFilled = 0;
    for (int x = 0; x < 10; x++) {
     if (!grid[x][y].isEmpty()) {
-     countFilled++;
+     numFilled++;
     }
    }
-   // Pushes blocks down into the open space
-   if (countFilled == 10) {
+   // fall down
+   if (numFilled == 10) {
     combo++;
     for (int x = 0; x < 10; x++) {
      for (int y2 = y; y2 > 2; y2--) {
@@ -159,28 +155,28 @@ public class TetrisGrid extends JComponent {
     }
    }
   }
-  // Updates score
+  // Update score
   if (combo == 1) {
-   gameStats[0] += 40;
+   info[0] += 40;
   }
   else if (combo == 2) {
-   gameStats[0] += 100;
+   info[0] += 100;
   }
   else if (combo == 3) {
-   gameStats[0] += 300;
+   info[0] += 300;
   }
   else if (combo == 4) {
-   gameStats[0] += 1200;
+   info[0] += 1200;
   }
   // Updates lines
-  gameStats[2] += combo;
+  info[2] += combo;
   // Updates level
-  if (combo > 0 && gameStats[2] != 0 && gameStats[2] % 10 == 0) {
-   gameStats[1] += 1;
+  if (combo > 0 && info[2] != 0 && info[2] % 10 == 0) {
+   info[1] += 1;
    levelUp();
   }
-  lines.setText("Lines: " + Integer.toString(gameStats[2]));
-  score.setText("Score: " + Integer.toString(gameStats[0]));
+  lines.setText("Lines: " + Integer.toString(info[2]));
+  score.setText("Score: " + Integer.toString(info[0]));
  }
  
  // Resets the game
@@ -190,18 +186,18 @@ public class TetrisGrid extends JComponent {
     grid[x][y] = new EmptyBlock(Color.BLACK);
    }
   }
-  gameStats[0] = 0;
-  gameStats[1] = 1;
-  gameStats[2] = 0;
-  score.setText("Score: " + Integer.toString(gameStats[0]));
-  level.setText("Level: " + Integer.toString(gameStats[1]));
-  lines.setText("Lines: " + Integer.toString(gameStats[2]));
+  info[0] = 0;
+  info[1] = 1;
+  info[2] = 0;
+  score.setText("Score: " + Integer.toString(info[0]));
+  level.setText("Level: " + Integer.toString(info[1]));
+  lines.setText("Lines: " + Integer.toString(info[2]));
   currentPiece = randomPiece();
  }
  
- // Decreases the interval between drops by updating the level
+//updating the level
  private void levelUp() {
-  level.setText("Level: " + Integer.toString(gameStats[1]));
+  level.setText("Level: " + Integer.toString(info[1]));
   if (interval > 50) {
    timer.stop();
    interval -= 10;
@@ -211,7 +207,7 @@ public class TetrisGrid extends JComponent {
   }
  }
  
- // Randomly selects a tetromino
+//randomly picking a game piece
  private Tetromino randomPiece() {
   Random rand = new Random();
   int n = rand.nextInt(7);

@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class Tetris implements Runnable {
 
- private int[] gameStats = new int[3];
+ private int[] info = new int[3];
  private Tetromino[] nextPiece = new Tetromino[1];
  JFrame frame;
  private JMenuBar menuBar;
@@ -86,15 +86,15 @@ public class Tetris implements Runnable {
   list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
     
   JLabel score = new JLabel();
-  score.setText("Score: " + Integer.toString(gameStats[0]));
+  score.setText("Score: " + Integer.toString(info[0]));
   
   JLabel level = new JLabel();
-  level.setText("Level: " + Integer.toString(gameStats[1]));
+  level.setText("Level: " + Integer.toString(info[1]));
   
   JLabel lines = new JLabel();
-  lines.setText("Lines: " + Integer.toString(gameStats[2]));
+  lines.setText("Lines: " + Integer.toString(info[2]));
 
-  final TetrisGrid Tetris = new TetrisGrid(gameStats, score, level, lines,
+  final TetrisGrid Tetris = new TetrisGrid(info, score, level, lines,
     nextPiece);
 
   final JButton start = new JButton("Start/Restart");
