@@ -1,3 +1,21 @@
+/*********************  FILES  ************/
+The final files for this program are: 
+1) mainTetris.java  - Main file to run program
+2) gameBoard.java  - File to initialize game board
+3) L.java  - File to make L-Shape Tetromino
+4) Line.java  - File to make L-Shape Tetromino
+5) Blank.java  - File to make L-Shape Tetromino
+6) MirrorL.java  - File to make L-Shape Tetromino
+7) S.java - File to make L-Shape Tetromino
+8) ShapeFactory.java - File to make Shapes class using design pattern
+9) Shapes.java  - File to make all Tetrominoes
+10) ShapesInterface.java  - File to make interface for Shapes class
+11) Square.java - File to make Square-Shape Tetromino
+12) T.java  - File to make T-Shape Tetromino
+13) Tetris.java  - File to make Tetris GUI
+14) Z.java  - File to make Z-Shape Tetromino
+
+——————————————————————————————————————————————————————————————
 /*********************  RUNNING THE PROGRAM  ************/
 
 To run the program, run the file mainTetris.java
