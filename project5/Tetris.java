@@ -94,13 +94,13 @@ public class Tetris implements Runnable {
   JLabel lines = new JLabel();
   lines.setText("Lines: " + Integer.toString(gameStats[2]));
 
-  final TetrisGrid game = new TetrisGrid(gameStats, score, level, lines,
+  final TetrisGrid Tetris = new TetrisGrid(gameStats, score, level, lines,
     nextPiece);
 
   final JButton start = new JButton("Start/Restart");
   start.addActionListener(new ActionListener() {
    public void actionPerformed(ActionEvent e) {
-    game.start();
+    Tetris.start();
    }
   });
   
@@ -108,7 +108,7 @@ public class Tetris implements Runnable {
   list.add(score);
   list.add(level);
   list.add(lines);
-  frame.add(game, BorderLayout.CENTER);
+  frame.add(Tetris, BorderLayout.CENTER);
   frame.add(list, BorderLayout.EAST);
   frame.setJMenuBar(createMenuBar());
   frame.pack();
