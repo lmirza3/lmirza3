@@ -1,17 +1,41 @@
-public class Tetromino extends gameBoard {
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.Scanner;
+import java.io.*;
+
+
+interface Tetrominoes {
+  Coord[] getLocation();
+}
+
+abstract class Tetromino {
   
-  int currentX;     // current X location on  the board
-  double currentY;  // current Y location on the board
-  
-  public Tetromino(int shape[][]) {
-    super(shape);
-    currentX = 7;
-    currentY = 0;
-    updateLocation();
+  Tetromino()
+  {
+    int orientation;
+    orientation = 1;
   }
   
-  void updateLocation() {
-    setLocation(Tetris.SQUARE_SIZE*currentX,
-                (int) (Tetris.SQUARE_SIZE*currentY));
+  public Coord[] getLocation() {
+    return null;
+  }
+}
+
+class I extends Tetromino {
+  public Coord[] pos;
+  
+  I() {
+    
+    pos = new Coord[4];
+    pos[0] = new Coord(0,4);
+    pos[1] = new Coord(1,4);
+    pos[2] = new Coord(2,4);
+    pos[3] = new Coord(3,4);
+  }
+  
+  @Override
+  public Coord[] getLocation() {
+    return pos;
   }
 }

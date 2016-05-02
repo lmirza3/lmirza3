@@ -5,11 +5,17 @@ import java.util.Scanner;
 import java.io.*;
 
 public class gameBoard extends JPanel{
-  private Tile buttons[][];
+  private Tile squares[][];
   private Container container;
   private GridLayout grid;
   private int linesCleared;
+  public Tetromino currentPiece;
+  public GameThread gameLoop;
   /***************************************Button Icons************************************/
+  private String names[] = {
+    "bricks/blacksquare.jpg", "bricks/bluesquare.jpg" , "bricks/cyansquare.jpg",
+    "bricks/greensquare.jpg", "bricks/magentasquare.jpg"
+  };
   private Icon black = new ImageIcon( "bricks/blacksquare.jpg" );
   private Icon blue = new ImageIcon( "bricks/bluesquare.jpg" );
   private Icon cyan = new ImageIcon( "bricks/cyansquare.jpg" );
@@ -17,7 +23,7 @@ public class gameBoard extends JPanel{
   private Icon magenta = new ImageIcon( "bricks/magentasquare.jpg" );
   private Icon white = new ImageIcon( "bricks/whitesquare.jpg" );
   private Icon red = new ImageIcon( "bricks/redsquare.jpg" );
-  private Icon orange = new ImageIcon( "bricks/orangesquare.jpg" );
+  public Icon orange = new ImageIcon( "bricks/orangesquare.jpg" );
   private Icon yellow = new ImageIcon( "bricks/yellowsquare.jpg" );
   private Icon gray = new ImageIcon( "bricks/graysquare.jpg" );
   /***************************************************************************************/
@@ -27,33 +33,40 @@ public class gameBoard extends JPanel{
   /***********************************Game Grid Constructor********************************/
   public gameBoard(){
     
-    this.setBackground(Color.RED);
+    this.setBackground(Color.GRAY);
     this.setPreferredSize(new Dimension(200,400));
-    grid = new GridLayout(20,20,0,0);
+    grid = new GridLayout(20,10,1,1);
     this.setLayout(grid);
     
-    buttons = new Tile[10][20];
+    squares = new Tile[20][10];
     this.linesCleared = 0;
     mineFlag = 10;
     secondsElapsed = 0;
     gameCompletedFlag = 0;
     
-    for(int i = 0; i < 10; ++i)
+    for(int i = 0; i < 20; ++i)
     {
-      for(int j = 0; j < 20; ++j)
+      for(int j = 0; j < 10; ++j)
       {          
-        buttons[i][j] = new Tile(i, j, black);
-        buttons[i][j].setSize(16,16);
-        this.add(buttons[i][j]);
+        squares[i][j] = new Tile(i, j, black);
+        squares[i][j].setSize(20,20);
+        this.add(squares[i][j]);
       }
     }
+    
+   Tetromino currTetromino; 
+   currTetromino = new I();
+      
+      for (Coord c : currTetromino.getLocation()) {
+        squares[c.x][c.y].setIcon(blue);
+      }
   }
   /***************************************************************************************/
   
   /***************************************************************************************/
   
   /**************************************Tetris Tile Class***********************************/
-  private class Tile extends JButton 
+  public class Tile extends JLabel 
   {
     //x and y positions
     private int row;
@@ -65,7 +78,7 @@ public class gameBoard extends JPanel{
     
     public Tile(int r, int c, Icon i)
     {
-      super("", i);
+      super(i);
       this.row = r;
       this.col = c;
       this.tileStatus = false;
@@ -92,6 +105,16 @@ public class gameBoard extends JPanel{
     }  
     
   }
-  /***************************************************************************************/
+  /***************************************************************************************/  
+}
+
+class Coord {
   
+  public int x;
+  public int y;
+  
+  Coord(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
 }
