@@ -1,17 +1,55 @@
+/*
+ * File: Class file to make our Tetris class. This handles the GUI of the board.
+ * 
+ * CS 342, Spring 2016
+ * Project 5: Tetris
+ * 
+ * Group Members: Lubna Mirza and Aiwan Hazari
+ * 
+ * Program Description: 
+ *              This program makes the game of Tetris. In this, the
+ *              player has the option to move the blocks down with keyboard
+ *              presses. The goal of the game is to wipe out as many lines
+ *              as possible on the board and not fill it up (so that it touches
+ *              the top of the board).
+ * 
+ * Items not working (Also detailed in README file);
+ * 1) Showing the Tetromino blocks on our GUI screen —> Even though we were
+ * initially able to show these shapes on the GUI, we tried a new implementation 
+ * (when we cleaned up our code) and with this, we were unable to make it work.
+ * We were able to get the logic down to actually make the shapes and control them
+ * as well, but showing them on the GUI just wasn’t working.
+ * 
+ * 2) Adding levels to the game so it goes fast as more lines are removed
+ * by the player. 
+ * 
+ * 3) Adding the play buttons onto the GUI itself
+ * 
+ * 4) When wiping out multiple lines in a row, adding extra to the score
+ * 
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.util.Random;
+import java.lang.Math;
 
-public class Tetris implements ActionListener{
-  
-  gameBoard game = new gameBoard();
-  JButton smileyButton;
-  
-  
-  JTextField timeDisplay;
-  JLabel timeLabel;
-  JLabel mineLabel;
+import java.awt.Color;
+import java.awt.BorderLayout;
+
+
+public class Tetris extends JFrame implements ActionListener{
+ 
+  private static Tetris instance;
+ // public static gameBoard game = new gameBoard();
+  public static final int HEIGHT = 600, WIDTH = 500;
+  private JTextField timeDisplay;
+  public static JLabel countDownLabel ;
+  public static JLabel scoreLabel;
+  public static gameBoard board;
+  public static Timer timer;
   
   //add a menu bar
   public JMenuBar createMenuBar() 
@@ -74,62 +112,59 @@ public class Tetris implements ActionListener{
     
     return menuBar;
   }
-  
-  
-  
-  public static void main (String args[])
+
+ 
+  private Tetris()
   {
-    new Tetris();
-  } 
-  public Tetris()
-  {
-    //overarching frame
-    JFrame f = new JFrame();
-    //labels
-    JPanel panel1 = new JPanel();
-    JPanel panel2 = new JPanel();
-    JPanel panel3 = new JPanel();
-    
-    //ADDING MINE NUMBER
-    mineLabel = new JLabel();
-    mineLabel.setText("" + game.mineFlag);
-    panel3.add(mineLabel);
-    f.getContentPane().add(panel3,BorderLayout.NORTH);
-    
-    //Adding RESET button
-    Icon smiley = new ImageIcon("CS342 Project 2 Minesweeper Images/smile_button.gif");
-    smileyButton = new JButton(smiley); 
-    smileyButton.setPreferredSize(new Dimension(24, 24));
-    smileyButton.addActionListener(this);
-    panel1.add(smileyButton);
-    f.getContentPane().add(panel1,BorderLayout.NORTH);    
-    
+    //ADDING score 
+    scoreLabel = new JLabel();
+    scoreLabel.setText("Score: " + board.scoreFlag);
     
     //adding counter
-    JLabel countDownLabel = new JLabel();
+    countDownLabel = new JLabel();
     countDownLabel.setText("" + Seconds.seconds);
-    panel2.add(countDownLabel);
-    f.getContentPane().add(panel2,BorderLayout.NORTH);
     //Starting counter
     CountDown countDown = new CountDown(countDownLabel);
-    Timer timer = new Timer(1000, countDown);
+    timer = new Timer(1000, countDown);
     timer.start();
     
+    //menu
+    setJMenuBar(createMenuBar());
+    add(countDownLabel, BorderLayout.NORTH);
+    add(scoreLabel, BorderLayout.SOUTH);
     
-    JMenuBar menuBar = new JMenuBar();
-    
-    f.setJMenuBar(createMenuBar());
-    f.setLayout(new FlowLayout());
-    f.getContentPane().add(game);
-    f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );     
-    f.pack();
-    f.setSize(400,600);
-    f.setVisible(true);
+    board = new gameBoard(this);
+    add(board);
+    board.start();
+
+    setSize(WIDTH,HEIGHT);
+    setTitle("Tetris_Hazari-Mirza");
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
   }
   
+  /* public static void main (String args[])
+  {
+    instance =  new Tetris();
+    //Tetris main = new Tetris();
+    instance.setVisible(true);
+  } */
+   
+   
+   //Get the only Tetris object available
+   public static Tetris getInstance()
+   {
+     instance =  new Tetris();
+     System.out.println("Tetris used a singleton design pattern.");
+     instance.setVisible(true);
+      return instance;
+   }
+   
+   
   public void actionPerformed(ActionEvent e) {
     
   }
+  
+ 
   
   class CountDown implements ActionListener {
     private JLabel countDownLabel;
@@ -143,22 +178,106 @@ public class Tetris implements ActionListener{
     public void actionPerformed(ActionEvent e) {
       Seconds.seconds++;
       this.countDownLabel.setText("Secs Elapsed: " + Seconds.seconds);
-      if (game.mineFlag != 0)
-        mineLabel.setText("Mines Left: " + game.mineFlag);
-      if (game.mineFlag <= 0)
+      if (board.scoreFlag <= 0)
       {
-        mineLabel.setText("0");
+        board.scoreFlag = 0;
+        scoreLabel.setText("Score: " + board.scoreFlag);
       }
-      
-      
-      if (game.gameCompletedFlag == 1 )
+         
+      if (board.gameCompletedFlag == 1 )
       {
-        game.secondsElapsed = Seconds.seconds;
+        board.secondsElapsed = Seconds.seconds;
+        timer.stop();
       }
     }
   }
 }
 
-class Seconds {
+class Seconds 
+{
   public static int seconds = 0;
 }
+
+ /* public void init()
+  {
+    Thread runGame = new Thread(this);
+    runGame.setPriority(Thread.MAX_PRIORITY);
+    runGame.start();
+  }
+  
+  public void run()
+  {
+    boolean gameRun = true;
+    while(gameRun)
+    {
+      updateGame();
+      /*BufferStrategy b = this.getBufferStrategy();
+      if(b == null)   //if game has to be initialized
+      {
+        createBufferStrategy(2);
+        continue;
+      }
+      //otherwise keep updating the pictures/board
+      Graphics2D g = (Graphics2D) b.getDrawGraphics();
+      render(g);
+      b.show();
+    }
+  }
+  
+  public void updateGame()
+  {
+    /*try
+    {
+      curPiece = game.blue;
+    }
+    catch(IOException e)
+    {
+      System.out.println("Error getting shape");
+      System.exit(1);
+    }
+  }
+  public void render(Graphics2D graphCols)
+  {
+    //graphCols.setColor(Color.black);
+    //graphCols.fillRect(0,0,WIDTH,HEIGHT);
+   // graphCols.drawImage(curPiece, 100, 100, 25, 25, null);
+  }
+  
+   /*  //pick a random shape to drop
+  public static void dropRandShape()
+  {
+    Random r = new Random();
+    int shapeVal = Math.abs(r.nextInt()) % 7 + 1;
+    //call function accordingly
+    switch(shapeVal)
+    {
+      case 1:
+        //box
+        System.out.println("1");
+        shape = new box();
+        game.isFalling = true;
+        break;
+      case 2:
+        System.out.println("2");
+        break;
+      case 3:
+        System.out.println("3");
+        break;
+      case 4:
+        System.out.println("4");
+        break;
+      case 5:
+        System.out.println("5");
+        break;
+      case 6:
+        System.out.println("6");
+        break;
+      case 7:
+        System.out.println("7");
+        break;
+    }
+
+  }
+  
+  */
+  
