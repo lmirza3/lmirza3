@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 import javax.swing.*;
 
-public class Tetris implements Runnable {
+public class Game implements Runnable {
 
  private int[] gameStats = new int[3];
  private Tetromino[] nextPiece = new Tetromino[1];
@@ -118,6 +118,6 @@ public class Tetris implements Runnable {
  }
 
  public static void main(String[] args) {
-  SwingUtilities.invokeLater(new Tetris());
+  SwingUtilities.invokeLater(new Game());
  }
 }
