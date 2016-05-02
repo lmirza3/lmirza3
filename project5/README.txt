@@ -21,9 +21,7 @@ as well, but showing them on the GUI just wasn’t working.
 2) Adding levels to the game so it goes fast as more lines are removed
 by the player. 
 
-3) Adding the play buttons onto the GUI itself
-
-4) When wiping out multiple lines in a row, adding extra to the score
+3) When wiping out multiple lines in a row, adding extra to the score
 
 ——————————————————————————————————————————————————————————————
 /*********************  DESIGN PATTERNS  ************/
