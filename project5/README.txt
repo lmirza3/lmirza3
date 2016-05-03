@@ -21,7 +21,7 @@ To run the program, run the file Tetris.java
 
 If in terminal/command line: 
 1) javac Tetris.java
-2) java Tet
+2) java Tetris
 
 ——————————————————————————————————————————————————————————————
 /*********************  NOT WORKING IN OUR PROGRAM  ************/
