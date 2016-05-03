@@ -1,3 +1,8 @@
+﻿/*********************  PROJECT 5  ************/
+/*********************  TETRIS  ************/
+/*********************  LUBNA MIRZA , AIWAN HAZARI  ************/
+
+
 /*********************  FILES  ************/
 The final files for this program are: 
 1) mainTetris.java - Main file to run the program. Also uses Singleton
@@ -29,9 +34,8 @@ If in terminal/command line:
 
 ——————————————————————————————————————————————————————————————
 /*********************  KNOWN ISSUES  ************/
-1. Timer displaying seconds elapsed onto GUI not functioning.
-   HOWEVER, time is being displayed on the command line each
-   and restarts as a game restarts/level up
+1. Timer does not restart after game has been restarted unless user closes and opens gui
+panel all over again
 
 ——————————————————————————————————————————————————————————————
 /*********************  DESIGN PATTERNS  ************/
