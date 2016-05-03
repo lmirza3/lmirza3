@@ -259,8 +259,6 @@ public class TetrisGrid extends JComponent {
   level.setText("Level: " + Integer.toString(info[1]));
   lines.setText("Lines: " + Integer.toString(info[2]));
   
- // timerLabel.setText("Timer: " + Integer.toString(info[2]));
-  
   currentPiece = tetFactory.randomPiece(grid);
  }
  
