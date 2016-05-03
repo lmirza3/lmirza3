@@ -29,7 +29,9 @@ If in terminal/command line:
 
 ——————————————————————————————————————————————————————————————
 /*********************  KNOWN ISSUES  ************/
-1. Timer displaying seconds elapsed not functioning
+1. Timer displaying seconds elapsed onto GUI not functioning.
+   HOWEVER, time is being displayed on the command line each
+   and restarts as a game restarts/level up
 
 ——————————————————————————————————————————————————————————————
 /*********************  DESIGN PATTERNS  ************/
