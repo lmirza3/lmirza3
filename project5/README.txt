@@ -24,14 +24,8 @@ If in terminal/command line:
 2) java Tetris
 
 ——————————————————————————————————————————————————————————————
-<<<<<<< HEAD
-/*********************************KNOWN ISSUES***********************************/
+/*********************  KNOWN ISSUES  ************/
 1. Timer displaying seconds elapsed
-=======
-/*********************  NOT WORKING IN OUR PROGRAM  ************/
-
-1) We were unable to get the Timer functioning on this program.
->>>>>>> origin/master
 
 ——————————————————————————————————————————————————————————————
 /*********************  DESIGN PATTERNS  ************/
@@ -89,15 +83,21 @@ Implementation of Factory Design Pattern:
 i) We first make a tetromino interface in the file “Tetromino.java” that contains
 all the default functions that will be implemented in each class. The class looks as follows:
 
-public class Shapes implements ShapesInterface
+//Tetromino class
+public interface Tetromino 
 {
-  . . . . 
+ public void moveLeft(Block[][] grid);
+ public void moveRight(Block[][] grid); 
+ public boolean moveDown(Block[][] grid);
+ public void hardDrop(Block[][] grid); 
+ public void rotate(Block[][] grid);
 }
 
+=======
+ii) Next, we implement classes for each of the different types of blocks that will inherit the Tetromino class, and they each have their own functions for how each block handles the functions such as moving, dropping, rotating, etc. An example is
+shown below:
 
-<<<<<<< HEAD
-ii) Next, we implement a classes for each of the different types of blocks that will inherit the Tetromino class, and thei have their own functions for how each block handles the functions such as moving, dropping, rotating, etc.
-
+//IBlock class
 public class IBlock implements Tetromino {
  private int rotation;
  private int[] pOne = new int[2];
@@ -106,16 +106,16 @@ public class IBlock implements Tetromino {
  private int[] pFour = new int[2];
 
  private Block one = new Block(Color.CYAN);
-....
-....
-....
+   ....
+   ....
+   ....
 }
- (since we use inheritance on each shape, we don’t implement the shapes directly)
+ (since we use inheritance on each shape, we don’t implement the shapes directly
+  from the interface)
 
+=======
+iii) Then, we have a TetrominoFactory class file which will randomly return one of the created tetrominoes.
 
-iii)Then, we have a TetrominoFactory class which will randomly return one of the created tetrominoes.
-
-import java.util.Random;
 //Tetromino factory class
 public class TetrominoFactory {
   //One method in this class that will return a random block every time.
@@ -139,31 +139,10 @@ public class TetrominoFactory {
       return new TBlock(grid);
   }
 }
+
 =======
-iii) Next we use a Shapes Factory class in the “ShapeFactory.java” file to call each of these
-shapes are are being implemented by our interface:
+iv) Then, an instance of the TetrominoFactory class gets called in class TetrisGrid, and it is used to 
+access the random function (From Tetromino Factory) that will return a different shape every time:
 
-public class ShapeFactory {
- 
-   //use getShape method to get object of type shape 
-   public Shapes getShape(Shapes.Tetrominoes shapeType)
-   {
-      if(shapeType == null)
-      {
-         return null;
-      }  
-      
-      if(shapeType == Shapes.Tetrominoes.Blank)
-      {
-        return new Blank();
-      }
-      
-      . . . . 
-    }
->>>>>>> origin/master
-
-iv) Then, an instance of the TetrominoFactory class gets called in class TetrisGrid, and it is used to access the random function that will return a different shape every time.
-
-
-
-
+//TetrisGrid class
+TetrominoFactory tetFactory = new TetrominoFactory();

@@ -114,6 +114,15 @@ public class Tetris implements Runnable {
   int seconds = 0;
   lines.setText("Timer: " + seconds);
   
+  JLabel blankSpace = new JLabel("   ");
+  JLabel instructions1 = new JLabel("Controls: ");
+  JLabel instructions2 = new JLabel("Left: Left-Arrow Key");
+  JLabel instructions3 = new JLabel("Right: Right-Arrow Key");
+  JLabel instructions4 = new JLabel("Rotate: Up-Arrow Key");
+  JLabel instructions5 = new JLabel("Down: Space Bar");
+  JLabel instructions6 = new JLabel("OR Buttons: ");
+  JLabel blankSpace2 = new JLabel("   ");
+  
   JButton leftBtn = new JButton("Move Left");
   
   JButton rightBtn = new JButton("Move Right");
@@ -139,6 +148,16 @@ public class Tetris implements Runnable {
   list.add(lines);
   
   list.add(timerLabel);
+  
+  //add instructions
+  list.add(blankSpace);
+  list.add(instructions1);
+  list.add(instructions2);
+  list.add(instructions3);
+  list.add(instructions4);
+  list.add(instructions5);
+  list.add(blankSpace2);
+  list.add(instructions6);
   
   //add buttons
   list.add(leftBtn);

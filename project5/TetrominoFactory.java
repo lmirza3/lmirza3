@@ -16,7 +16,8 @@
 
 import java.util.Random;
 //Tetromino factory class
-public class TetrominoFactory {
+public class TetrominoFactory 
+{
   //One method in this class that will return a random block every time.
   public Tetromino randomPiece(Block[][] grid) {
     Random rand = new Random();
