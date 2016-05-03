@@ -31,6 +31,7 @@ public class TetrisGrid extends JComponent {
  private JLabel lines;
  private JLabel timerLabel;
  private Tetromino[] nextArray;
+ private Seconds secs = new Seconds();
  TetrominoFactory tetFactory = new TetrominoFactory();
 
  private int interval = 750;
@@ -254,11 +255,12 @@ public class TetrisGrid extends JComponent {
   info[0] = 0;
   info[1] = 1;
   info[2] = 0;
-  //info[3] = 0;
   score.setText("Score: " + Integer.toString(info[0]));
   level.setText("Level: " + Integer.toString(info[1]));
   lines.setText("Lines: " + Integer.toString(info[2]));
+  
  // timerLabel.setText("Timer: " + Integer.toString(info[2]));
+  
   currentPiece = tetFactory.randomPiece(grid);
  }
  
@@ -273,34 +275,7 @@ public class TetrisGrid extends JComponent {
    timer.start(); 
   }
  }
-/* 
-//randomly picking a game piece
- private Tetromino randomPiece() {
-  Random rand = new Random();
-  int n = rand.nextInt(7);
-  if (n == 0) {
-   return new IBlock(grid);
-  }
-  else if (n == 1) {
-   return new JBlock(grid);
-  }
-  else if (n == 2) {
-   return new LBlock(grid);
-  }
-  else if (n == 3) {
-   return new OBlock(grid);
-  }
-  else if (n == 4) {
-   return new SBlock(grid);
-  }
-  else if (n == 5) {
-   return new ZBlock(grid);
-  }
-  else {
-   return new TBlock(grid);
-  }
- }
-*/ 
+
  private void updateNextPiece() {
   nextArray[0] = nextPiece;
  }
