@@ -1,3 +1,19 @@
+/*
+ * File: Class file to make our gameboard class. This handles the controls of the game
+ * 
+ * CS 342, Spring 2016
+ * Project 5: Tetris
+ * 
+ * Group Members: Lubna Mirza and Aiwan Hazari
+ * 
+ * Program Description: 
+ *              This program makes the game of Tetris. In this, the
+ *              player has the option to move the blocks down with keyboard
+ *              presses. The goal of the game is to wipe out as many lines
+ *              as possible on the board and not fill it up (so that it touches
+ *              the top of the board).
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
@@ -13,14 +29,16 @@ public class TetrisGrid extends JComponent {
  private JLabel score; 
  private JLabel level;
  private JLabel lines;
+ private JLabel timerLabel;
  private Tetromino[] nextArray;
  TetrominoFactory tetFactory = new TetrominoFactory();
 
  private int interval = 750;
  private Timer timer;       
 //grid that handles the game and gameplay
- public TetrisGrid(int[] info, JLabel score, JLabel level, JLabel lines,
-   Tetromino[] nextArray) {
+  public TetrisGrid(int[] info, JLabel score, JLabel level, JLabel lines,
+   Tetromino[] nextArray, JLabel timerLabel, int seconds, JButton leftBtn, JButton rightBtn, JButton rotateBtn, JButton downBtn) 
+  {
   setBorder(BorderFactory.createLineBorder(Color.BLACK));
   setFocusable(true);
 
@@ -30,6 +48,30 @@ public class TetrisGrid extends JComponent {
   this.level = level;
   this.lines = lines;
   this.nextArray = nextArray;
+
+  leftBtn.addActionListener(new ActionListener() {
+   public void actionPerformed(ActionEvent e) {
+    moveLeft();
+   }
+  });
+  
+  rightBtn.addActionListener(new ActionListener() {
+   public void actionPerformed(ActionEvent e) {
+    moveRight();
+   }
+  });
+  
+  downBtn.addActionListener(new ActionListener() {
+   public void actionPerformed(ActionEvent e) {
+    dropDownAllTheWay();
+   }
+  });
+  
+  rotateBtn.addActionListener(new ActionListener() {
+   public void actionPerformed(ActionEvent e) {
+    rotatePiece();
+   }
+  });
 
   timer = new Timer(interval, new ActionListener() {
    public void actionPerformed(ActionEvent e) {
@@ -55,23 +97,17 @@ public class TetrisGrid extends JComponent {
    public void keyPressed(KeyEvent e) {
     if (gameStarted) {
      if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-      currentPiece.moveLeft(grid);
+       moveLeft();
      }
      else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-      currentPiece.moveRight(grid);
+       moveRight();
      }
-     else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-      currentPiece.hardDrop(grid);
-      clearLines();
-      if (checkIfFinished()) {
-       gameStarted = false;
-      }
-      currentPiece = tetFactory.randomPiece(grid);
-      nextPiece = tetFactory.randomPiece(grid);
-      updateNextPiece();
+     else if (e.getKeyCode() == KeyEvent.VK_SPACE) 
+     {
+       dropDownAllTheWay();
      }
      else if (e.getKeyCode() == KeyEvent.VK_UP) {
-      currentPiece.rotate(grid);
+       rotatePiece();
      }
      repaint();
     }
@@ -79,6 +115,33 @@ public class TetrisGrid extends JComponent {
 
   });
  }
+  
+  private void moveLeft()
+  {
+    currentPiece.moveLeft(grid);
+  }
+  
+  private void moveRight()
+  {
+    currentPiece.moveRight(grid);
+  }
+  
+  private void rotatePiece()
+  {
+    currentPiece.rotate(grid);
+  }
+  
+  private void dropDownAllTheWay()
+  {
+    currentPiece.hardDrop(grid);
+      clearLines();
+      if (checkIfFinished()) {
+       gameStarted = false;
+      }
+      currentPiece = tetFactory.randomPiece(grid);
+      nextPiece = tetFactory.randomPiece(grid);
+      updateNextPiece();
+  }
 //start the game
  public void start() {
   gameStarted = true;
@@ -193,6 +256,7 @@ public class TetrisGrid extends JComponent {
   score.setText("Score: " + Integer.toString(info[0]));
   level.setText("Level: " + Integer.toString(info[1]));
   lines.setText("Lines: " + Integer.toString(info[2]));
+  //timerLabel.setText("Timer: " + 0);
   currentPiece = tetFactory.randomPiece(grid);
  }
  
