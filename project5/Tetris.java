@@ -101,6 +101,8 @@ public class Tetris implements Runnable {
  
  public void run() 
  {
+   
+   
   frame = new JFrame();
   
   JPanel list = new JPanel();
@@ -117,7 +119,12 @@ public class Tetris implements Runnable {
 
   JLabel timerLabel = new JLabel();
   int seconds = 0;
-  lines.setText("Timer: " + seconds);
+  timerLabel.setText("Timer: " + Seconds.seconds);
+  
+  
+   TimeClock secElapsed = new TimeClock(timerLabel);
+   Timer guiTimer = new Timer(1000,secElapsed);
+   guiTimer.start();
   
   JLabel blankSpace = new JLabel("   ");
   JLabel instructions1 = new JLabel("Controls: ");
@@ -189,4 +196,29 @@ public class Tetris implements Runnable {
       SwingUtilities.invokeLater(new Tetris());
      //System.out.println("Tetris used a singleton design pattern.");
    }
+}
+
+class TimeClock implements ActionListener {
+    private JLabel timerLabel;
+    
+    
+    public TimeClock(JLabel timerLabel) {
+      this.timerLabel = timerLabel;
+    }
+    
+    //public CountDown(JLabel 
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      Seconds.seconds++;
+      this.timerLabel.setText("Secs Elapsed: " + Seconds.seconds);
+     
+      
+      
+     
+    }
+  }
+
+class Seconds {
+  public static int seconds = 0;
 }
