@@ -1,14 +1,37 @@
-﻿/*********************  RUNNING THE PROGRAM  ************/
-
-To run the program, run the file mainTetris.java
-
-If in terminal/command line: 
-1) javac mainTetris.java
-2) java mainTetris
+/*********************  FILES  ************/
+The final files for this program are: 
+1) Tetris.java  - Main file to run program. Includes the GUI here
+2) TetrisGrid.java  - File to initialize game board grid
+3) Tetromino.java - File to initialize our interface for Tetrominos
+4) TetrominoFactory.java - File to use Design Pattern
+5) Block-Tetromino classes:
+   LBlock.java
+   Block.java
+   IBlock.java
+   JBlock.java
+   OBlock.java
+   SBlock.java
+   TBlock.java
+   ZBlock.java
 
 ——————————————————————————————————————————————————————————————
+/*********************  RUNNING THE PROGRAM  ************/
+
+To run the program, run the file Tetris.java
+
+If in terminal/command line: 
+1) javac Tetris.java
+2) java Tetris
+
+——————————————————————————————————————————————————————————————
+<<<<<<< HEAD
 /*********************************KNOWN ISSUES***********************************/
 1. Timer displaying seconds elapsed
+=======
+/*********************  NOT WORKING IN OUR PROGRAM  ************/
+
+1) We were unable to get the Timer functioning on this program.
+>>>>>>> origin/master
 
 ——————————————————————————————————————————————————————————————
 /*********************  DESIGN PATTERNS  ************/
@@ -34,10 +57,23 @@ private Tetris()
 ii) We make a function so we can return the instance of this object in “Tetris.java”:
 
 //Function to allow this instance to be called:
+   public static Tetris getInstance()
+   {
+     instance =  new Tetris();
+     System.out.println("Tetris used a singleton design pattern.");
+     instance.setVisible(true);
+      return instance;
+   }
 
-public static void main(String[] args) {
-  SwingUtilities.invokeLater(new Tetris());
- }
+
+iii) Then in another file, “mainTetris.java”, we call this object: 
+
+//Only able to call this object once & in this file:
+public static void main(String[] args) 
+   {
+      //Call Tetris object 
+      Tetris object = Tetris.getInstance();
+   }
 
 
 —————————————————————————————————
@@ -53,15 +89,13 @@ Implementation of Factory Design Pattern:
 i) We first make a tetromino interface in the file “Tetromino.java” that contains
 all the default functions that will be implemented in each class. The class looks as follows:
 
-public interface Tetromino {
- public void moveLeft(Block[][] grid);
- public void moveRight(Block[][] grid); 
- public boolean moveDown(Block[][] grid);
- public void hardDrop(Block[][] grid); 
- public void rotate(Block[][] grid);
+public class Shapes implements ShapesInterface
+{
+  . . . . 
 }
 
 
+<<<<<<< HEAD
 ii) Next, we implement a classes for each of the different types of blocks that will inherit the Tetromino class, and thei have their own functions for how each block handles the functions such as moving, dropping, rotating, etc.
 
 public class IBlock implements Tetromino {
@@ -105,6 +139,28 @@ public class TetrominoFactory {
       return new TBlock(grid);
   }
 }
+=======
+iii) Next we use a Shapes Factory class in the “ShapeFactory.java” file to call each of these
+shapes are are being implemented by our interface:
+
+public class ShapeFactory {
+ 
+   //use getShape method to get object of type shape 
+   public Shapes getShape(Shapes.Tetrominoes shapeType)
+   {
+      if(shapeType == null)
+      {
+         return null;
+      }  
+      
+      if(shapeType == Shapes.Tetrominoes.Blank)
+      {
+        return new Blank();
+      }
+      
+      . . . . 
+    }
+>>>>>>> origin/master
 
 iv) Then, an instance of the TetrominoFactory class gets called in class TetrisGrid, and it is used to access the random function that will return a different shape every time.
 
