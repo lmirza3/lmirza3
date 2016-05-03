@@ -14,6 +14,7 @@ public class TetrisGrid extends JComponent {
  private JLabel level;
  private JLabel lines;
  private Tetromino[] nextArray;
+ TetrominoFactory tetFactory = new TetrominoFactory();
 
  private int interval = 750;
  private Timer timer;       
@@ -46,8 +47,8 @@ public class TetrisGrid extends JComponent {
    }
   }
   
-  currentPiece = randomPiece();
-  nextPiece = randomPiece();
+  currentPiece = tetFactory.randomPiece(grid);
+  nextPiece = tetFactory.randomPiece(grid);
   updateNextPiece();
 //adding key listeners for game controls
   addKeyListener(new KeyAdapter() {
@@ -65,8 +66,8 @@ public class TetrisGrid extends JComponent {
       if (checkIfFinished()) {
        gameStarted = false;
       }
-      currentPiece = randomPiece();
-      nextPiece = randomPiece();
+      currentPiece = tetFactory.randomPiece(grid);
+      nextPiece = tetFactory.randomPiece(grid);
       updateNextPiece();
      }
      else if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -92,8 +93,8 @@ public class TetrisGrid extends JComponent {
     if (checkIfFinished()) {
      gameStarted = false;
     }
-    currentPiece = randomPiece();
-    nextPiece = randomPiece();
+    currentPiece = tetFactory.randomPiece(grid);
+    nextPiece = tetFactory.randomPiece(grid);
     updateNextPiece();
    }
    repaint(); 
@@ -192,7 +193,7 @@ public class TetrisGrid extends JComponent {
   score.setText("Score: " + Integer.toString(info[0]));
   level.setText("Level: " + Integer.toString(info[1]));
   lines.setText("Lines: " + Integer.toString(info[2]));
-  currentPiece = randomPiece();
+  currentPiece = tetFactory.randomPiece(grid);
  }
  
 //updating the level
@@ -206,7 +207,7 @@ public class TetrisGrid extends JComponent {
    timer.start(); 
   }
  }
- 
+/* 
 //randomly picking a game piece
  private Tetromino randomPiece() {
   Random rand = new Random();
@@ -233,7 +234,7 @@ public class TetrisGrid extends JComponent {
    return new TBlock(grid);
   }
  }
- 
+*/ 
  private void updateNextPiece() {
   nextArray[0] = nextPiece;
  }
