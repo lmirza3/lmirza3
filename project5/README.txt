@@ -9,7 +9,6 @@ If in terminal/command line:
 ——————————————————————————————————————————————————————————————
 /*********************************KNOWN ISSUES***********************************/
 1. Timer displaying seconds elapsed
-2. GUI manual controls
 
 ——————————————————————————————————————————————————————————————
 /*********************  DESIGN PATTERNS  ************/
@@ -51,21 +50,8 @@ private, and thus more efficient.
 —————————————————————————
 Implementation of Factory Design Pattern:
 
-i) We first make a shapes interface in the file “ShapesInterface.java” with
-all the functions in the file “Shapes.java”:
-
-public interface ShapesInterface 
-{
-  void makeShape(Shapes.Tetrominoes shape);
-  void makeNewX(int ind, int x);
-  void makeNewY(int ind, int y);
-  int getx(int ind);
-
-  . . . . 
-}
-
-
-ii) Next we made our Shapes class implement this interface in our “Shapes.java” file:
+i) We first make a tetromino interface in the file “Tetromino.java” that contains
+all the default functions that will be implemented in each class. The class looks as follows:
 
 public interface Tetromino {
  public void moveLeft(Block[][] grid);
@@ -74,15 +60,53 @@ public interface Tetromino {
  public void hardDrop(Block[][] grid); 
  public void rotate(Block[][] grid);
 }
+
+
+ii) Next, we implement a classes for each of the different types of blocks that will inherit the Tetromino class, and thei have their own functions for how each block handles the functions such as moving, dropping, rotating, etc.
+
+public class IBlock implements Tetromino {
+ private int rotation;
+ private int[] pOne = new int[2];
+ private int[] pTwo = new int[2];
+ private int[] pThree = new int[2];
+ private int[] pFour = new int[2];
+
+ private Block one = new Block(Color.CYAN);
+....
+....
+....
+}
  (since we use inheritance on each shape, we don’t implement the shapes directly)
 
 
-iii) Next we use our classes that inherit the Tetromino class in order to instantiate different kinds of Tetrominoes.
+iii)Then, we have a TetrominoFactory class which will randomly return one of the created tetrominoes.
 
-public class IBlock implements Tetromino {
-/////
-.....
+import java.util.Random;
+//Tetromino factory class
+public class TetrominoFactory {
+  //One method in this class that will return a random block every time.
+  public Tetromino randomPiece(Block[][] grid) {
+    Random rand = new Random();
+    int n = rand.nextInt(7);
+    
+    if (n == 0) 
+      return new IBlock(grid);
+    else if (n == 1) 
+      return new JBlock(grid);
+    else if (n == 2) 
+      return new LBlock(grid);
+    else if (n == 3)
+      return new OBlock(grid);
+    else if (n == 4)
+      return new SBlock(grid);
+    else if (n == 5)
+      return new ZBlock(grid);
+    else
+      return new TBlock(grid);
+  }
 }
+
+iv) Then, an instance of the TetrominoFactory class gets called in class TetrisGrid, and it is used to access the random function that will return a different shape every time.
 
 
 
