@@ -1,15 +1,32 @@
-﻿/*********************  RUNNING THE PROGRAM  ************/
+/*********************  FILES  ************/
+The final files for this program are: 
+1) Tetris.java  - Main file to run program. Includes the GUI here
+2) TetrisGrid.java  - File to initialize game board grid
+3) Tetromino.java - File to initialize our interface for Tetrominos
+4) TetrominoFactory.java - File to use Design Pattern
+5) Block-Tetromino classes:
+   LBlock.java
+   Block.java
+   IBlock.java
+   JBlock.java
+   OBlock.java
+   SBlock.java
+   TBlock.java
+   ZBlock.java
+
+——————————————————————————————————————————————————————————————
+/*********************  RUNNING THE PROGRAM  ************/
 
 To run the program, run the file mainTetris.java
 
 If in terminal/command line: 
-1) javac mainTetris.java
-2) java mainTetris
+1) javac Tetris.java
+2) java Tet
 
 ——————————————————————————————————————————————————————————————
-/*********************************KNOWN ISSUES***********************************/
-1. Timer displaying seconds elapsed
-2. GUI manual controls
+/*********************  NOT WORKING IN OUR PROGRAM  ************/
+
+1) We were unable to get the Timer functioning on this program.
 
 ——————————————————————————————————————————————————————————————
 /*********************  DESIGN PATTERNS  ************/
@@ -35,10 +52,23 @@ private Tetris()
 ii) We make a function so we can return the instance of this object in “Tetris.java”:
 
 //Function to allow this instance to be called:
+   public static Tetris getInstance()
+   {
+     instance =  new Tetris();
+     System.out.println("Tetris used a singleton design pattern.");
+     instance.setVisible(true);
+      return instance;
+   }
 
-public static void main(String[] args) {
-  SwingUtilities.invokeLater(new Tetris());
- }
+
+iii) Then in another file, “mainTetris.java”, we call this object: 
+
+//Only able to call this object once & in this file:
+public static void main(String[] args) 
+   {
+      //Call Tetris object 
+      Tetris object = Tetris.getInstance();
+   }
 
 
 —————————————————————————————————
@@ -67,22 +97,33 @@ public interface ShapesInterface
 
 ii) Next we made our Shapes class implement this interface in our “Shapes.java” file:
 
-public interface Tetromino {
- public void moveLeft(Block[][] grid);
- public void moveRight(Block[][] grid); 
- public boolean moveDown(Block[][] grid);
- public void hardDrop(Block[][] grid); 
- public void rotate(Block[][] grid);
+public class Shapes implements ShapesInterface
+{
+  . . . . 
 }
  (since we use inheritance on each shape, we don’t implement the shapes directly)
 
 
-iii) Next we use our classes that inherit the Tetromino class in order to instantiate different kinds of Tetrominoes.
+iii) Next we use a Shapes Factory class in the “ShapeFactory.java” file to call each of these
+shapes are are being implemented by our interface:
 
-public class IBlock implements Tetromino {
-/////
-.....
-}
+public class ShapeFactory {
+ 
+   //use getShape method to get object of type shape 
+   public Shapes getShape(Shapes.Tetrominoes shapeType)
+   {
+      if(shapeType == null)
+      {
+         return null;
+      }  
+      
+      if(shapeType == Shapes.Tetrominoes.Blank)
+      {
+        return new Blank();
+      }
+      
+      . . . . 
+    }
 
 
 
