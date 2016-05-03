@@ -17,7 +17,7 @@ The final files for this program are:
 ——————————————————————————————————————————————————————————————
 /*********************  RUNNING THE PROGRAM  ************/
 
-To run the program, run the file mainTetris.java
+To run the program, run the file Tetris.java
 
 If in terminal/command line: 
 1) javac Tetris.java
