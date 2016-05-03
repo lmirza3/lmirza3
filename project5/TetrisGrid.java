@@ -35,8 +35,9 @@ public class TetrisGrid extends JComponent {
 
  private int interval = 750;
  private Timer timer;       
+ 
 //grid that handles the game and gameplay
-  public TetrisGrid(int[] info, JLabel score, JLabel level, JLabel lines,
+ public TetrisGrid(int[] info, JLabel score, JLabel level, JLabel lines,
    Tetromino[] nextArray, JLabel timerLabel, int seconds, JButton leftBtn, JButton rightBtn, JButton rotateBtn, JButton downBtn) 
   {
   setBorder(BorderFactory.createLineBorder(Color.BLACK));

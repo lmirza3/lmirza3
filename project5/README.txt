@@ -1,10 +1,12 @@
 /*********************  FILES  ************/
 The final files for this program are: 
-1) Tetris.java  - Main file to run program. Includes the GUI here
-2) TetrisGrid.java  - File to initialize game board grid
-3) Tetromino.java - File to initialize our interface for Tetrominos
-4) TetrominoFactory.java - File to use Design Pattern
-5) Block-Tetromino classes:
+1) mainTetris.java - Main file to run the program. Also uses Singleton
+                     Design Pattern here.
+2) Tetris.java  - File that makes the GUI
+3) TetrisGrid.java  - File to initialize game board grid
+4) Tetromino.java - File to initialize our interface for Tetrominos
+5) TetrominoFactory.java - File to use Factory Design Pattern
+6) Blocks/Tetromino classes:
    LBlock.java
    Block.java
    IBlock.java
@@ -17,58 +19,59 @@ The final files for this program are:
 ——————————————————————————————————————————————————————————————
 /*********************  RUNNING THE PROGRAM  ************/
 
-To run the program, run the file Tetris.java
+To run the program, run the file mainTetris.java
 
 If in terminal/command line: 
-1) javac Tetris.java
-2) java Tetris
+1) javac mainTetris.java
+2) java mainTetris
 
 ——————————————————————————————————————————————————————————————
 /*********************  KNOWN ISSUES  ************/
-1. Timer displaying seconds elapsed
+1. Timer displaying seconds elapsed not functioning
 
 ——————————————————————————————————————————————————————————————
 /*********************  DESIGN PATTERNS  ************/
 
 *(1) Singleton Design Pattern:
 
-The Singleton Design Pattern is one where we only allow 1
-instantiation of an object to be called. 
+The Singleton Design Pattern is one where we only allow one,
+private instantiation of an object to be called. 
 
 —————————————————————————
 -Implementation of Singleton Design Pattern:
 
 i) First, we make the constructor of an object private, so no other file can 
-access it. We did this in the “Tetris.java” file:
+access it. We did this in the “LBlock.java” file:
 
-//Private Constructor:
+//Tetris class:
 private Tetris()
-{
-   . . . . 
-}
+ {
+   info = new int[3];
+   nextPiece = new Tetromino[1];
+ }
 
 
 ii) We make a function so we can return the instance of this object in “Tetris.java”:
 
-//Function to allow this instance to be called:
-   public static Tetris getInstance()
+//Function to allow this instance to be initialized:
+   public static void getInstance()
    {
-     instance =  new Tetris();
-     System.out.println("Tetris used a singleton design pattern.");
-     instance.setVisible(true);
-      return instance;
+      SwingUtilities.invokeLater(new Tetris());
+     //System.out.println("Tetris used a singleton design pattern.");
    }
 
 
 iii) Then in another file, “mainTetris.java”, we call this object: 
 
-//Only able to call this object once & in this file:
-public static void main(String[] args) 
+//in mainTetris class
+public class mainTetris 
+{
+   public static void main(String[] args) 
    {
-      //Call Tetris object 
-      Tetris object = Tetris.getInstance();
+      //Call Tetris instance 
+      Tetris.getInstance();
    }
-
+}
 
 —————————————————————————————————
 *(2) Factory Design Pattern:

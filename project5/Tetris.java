@@ -24,10 +24,16 @@ import javax.swing.*;
 
 public class Tetris implements Runnable {
 
- private int[] info = new int[3];
- private Tetromino[] nextPiece = new Tetromino[1];
+ private int[] info;// = new int[3];
+ private Tetromino[] nextPiece;// = new Tetromino[1];
  JFrame frame;
  private JMenuBar menuBar;
+ 
+ private Tetris()
+ {
+   info = new int[3];
+   nextPiece = new Tetromino[1];
+ }
  
  public JMenuBar createMenuBar() 
   {
@@ -93,9 +99,8 @@ public class Tetris implements Runnable {
  
  
  
- public void run() {
-   
-   
+ public void run() 
+ {
   frame = new JFrame();
   
   JPanel list = new JPanel();
@@ -174,7 +179,14 @@ public class Tetris implements Runnable {
 
  }
 
- public static void main(String[] args) {
-  SwingUtilities.invokeLater(new Tetris());
- }
+ /*public static void main(String[] args) {
+  
+ }*/
+ 
+ //Get the only Tetris object available
+   public static void getInstance()
+   {
+      SwingUtilities.invokeLater(new Tetris());
+     //System.out.println("Tetris used a singleton design pattern.");
+   }
 }
