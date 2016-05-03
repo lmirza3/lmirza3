@@ -6,7 +6,9 @@ The final files for this program are:
 3) TetrisGrid.java  - File to initialize game board grid
 4) Tetromino.java - File to initialize our interface for Tetrominos
 5) TetrominoFactory.java - File to use Factory Design Pattern
-6) Blocks/Tetromino classes:
+6) testTime.java - File to show time elapsed since game started/level
+		    increased (time shown on command line)
+7) Blocks/Tetromino classes:
    LBlock.java
    Block.java
    IBlock.java
