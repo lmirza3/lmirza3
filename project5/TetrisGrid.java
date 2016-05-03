@@ -25,7 +25,7 @@ public class TetrisGrid extends JComponent {
  private Tetromino nextPiece;
  private Block[][] grid; 
  private int[] info; 
- private boolean gameStarted; 
+ public boolean gameStarted; 
  private JLabel score; 
  private JLabel level;
  private JLabel lines;
@@ -33,13 +33,14 @@ public class TetrisGrid extends JComponent {
  private Tetromino[] nextArray;
  private Seconds secs = new Seconds();
  TetrominoFactory tetFactory = new TetrominoFactory();
+  private testTimer timerTest;
 
  private int interval = 750;
  private Timer timer;       
  
 //grid that handles the game and gameplay
  public TetrisGrid(int[] info, JLabel score, JLabel level, JLabel lines,
-   Tetromino[] nextArray, JLabel timerLabel, int seconds, JButton leftBtn, JButton rightBtn, JButton rotateBtn, JButton downBtn) 
+   Tetromino[] nextArray, JButton leftBtn, JButton rightBtn, JButton rotateBtn, JButton downBtn) 
   {
   setBorder(BorderFactory.createLineBorder(Color.BLACK));
   setFocusable(true);
@@ -94,6 +95,7 @@ public class TetrisGrid extends JComponent {
   currentPiece = tetFactory.randomPiece(grid);
   nextPiece = tetFactory.randomPiece(grid);
   updateNextPiece();
+  
 //adding key listeners for game controls
   addKeyListener(new KeyAdapter() {
    public void keyPressed(KeyEvent e) {
@@ -144,12 +146,19 @@ public class TetrisGrid extends JComponent {
       nextPiece = tetFactory.randomPiece(grid);
       updateNextPiece();
   }
+  
 //start the game
  public void start() {
   gameStarted = true;
   clearGame();
+  
+  //timer in command line
+  timerTest = new testTimer();
+  timerTest.start();
+     
   requestFocusInWindow();
  }
+ 
 //gameplay
  void tick() {
   if (gameStarted) {
@@ -259,18 +268,27 @@ public class TetrisGrid extends JComponent {
   level.setText("Level: " + Integer.toString(info[1]));
   lines.setText("Lines: " + Integer.toString(info[2]));
   
+<<<<<<< HEAD
+=======
+  //timerLabel.setText("Timer: " + 0);
+>>>>>>> origin/master
   currentPiece = tetFactory.randomPiece(grid);
  }
  
 //updating the level
  private void levelUp() {
   level.setText("Level: " + Integer.toString(info[1]));
-  if (interval > 50) {
+  if (interval > 50) 
+  {
+    int timestop = timerTest.getTime();
+    System.out.println("Level increased at time: " + timestop + " seconds");
    timer.stop();
    interval -= 10;
    timer = new Timer(interval, new ActionListener() {
     public void actionPerformed(ActionEvent e) { tick(); }});
    timer.start(); 
+   
+   timerTest.sec = 0;   //restart time;
   }
  }
 
