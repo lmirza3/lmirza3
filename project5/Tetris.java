@@ -1,3 +1,19 @@
+/*
+ * File: Class file to make our Tetris class. This handles the GUI of the board.
+ * 
+ * CS 342, Spring 2016
+ * Project 5: Tetris
+ * 
+ * Group Members: Lubna Mirza and Aiwan Hazari
+ * 
+ * Program Description: 
+ *              This program makes the game of Tetris. In this, the
+ *              player has the option to move the blocks down with keyboard
+ *              presses. The goal of the game is to wipe out as many lines
+ *              as possible on the board and not fill it up (so that it touches
+ *              the top of the board).
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -94,8 +110,21 @@ public class Tetris implements Runnable {
   JLabel lines = new JLabel();
   lines.setText("Lines: " + Integer.toString(info[2]));
 
+  JLabel timerLabel = new JLabel();
+  int seconds = 0;
+  lines.setText("Timer: " + seconds);
+  
+  JButton leftBtn = new JButton("Move Left");
+  
+  JButton rightBtn = new JButton("Move Right");
+  
+  JButton rotateBtn = new JButton("Rotate");
+  
+  JButton downBtn = new JButton("Move Down");
+  
+  
   final TetrisGrid Tetris = new TetrisGrid(info, score, level, lines,
-    nextPiece);
+    nextPiece, timerLabel, seconds, leftBtn, rightBtn, rotateBtn, downBtn);
 
   final JButton start = new JButton("Start/Restart");
   start.addActionListener(new ActionListener() {
@@ -108,6 +137,15 @@ public class Tetris implements Runnable {
   list.add(score);
   list.add(level);
   list.add(lines);
+  
+  list.add(timerLabel);
+  
+  //add buttons
+  list.add(leftBtn);
+  list.add(rightBtn);
+  list.add(rotateBtn);
+  list.add(downBtn);
+  
   frame.add(Tetris, BorderLayout.CENTER);
   frame.add(list, BorderLayout.EAST);
   frame.setJMenuBar(createMenuBar());
